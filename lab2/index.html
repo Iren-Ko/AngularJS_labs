@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>AngularJS Lab 2</title>
+    <link href="Content/reset.min.css" rel="stylesheet" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/main.css" rel="stylesheet" />
+    <script src="Scripts/angular.min.js"></script>
+</head>
+<body>
+
+    <main>
+
+
+        <div class="container-md">
+
+            <h1 class="mb-5">Lab 2</h1>
+
+            <div class="mb-5">
+                <h5>1. Создать массив объектов goods, хранящий информацию о названии товара, его цене и количестве. Используя директиву ng-repeat отобразить на экране в виде таблицы.</h5>
+
+                <!-- angular -->
+                <div class="mt-5" data-ng-app="objectList" data-ng-controller="objectController">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Название</th>
+                                <th scope="col">Цена</th>
+                                <th scope="col">Количество</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="o in objects">
+                                <td>{{o.title}}</td>
+                                <td>{{o.quantity}}</td>
+                                <td>{{o.price}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /angular -->
+            </div>
+
+            <div class="mb-5">
+                <h5>2. Создать директиву copyright для отображения строки «Copyright 2023» в элементе и применить её на странице (в виде атрибута и в виде элемента).</h5>
+
+                <!-- angular -->
+                <div class="mt-5" id="module">
+                    <p>Вывод строки в виде атрибута: <span class="txt -green" data-year-directive></span></p>
+                    <p>Вывод строки в виде элемента: <span class="txt -green"><year-directive></year-directive></span></p>
+                </div>
+                <!-- /angular -->
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+
+        angular.module('objectList', []).controller('objectController', function ($scope) {
+
+            $scope.objects = [
+                {title: 'Название 1', quantity: 3, price: 99.99},
+                {title: 'Название 2', quantity: 35, price: 19.99},
+                {title: 'Название 3', quantity: 89, price: 299.99}
+            ];
+        });        
+
+        angular.module('createDirective', []).directive('yearDirective', function () {
+
+            return {
+                restrict: 'EA',
+                template: '<strong>Copyright ' + (new Date()).getFullYear() + '</strong>'
+            }
+        });
+
+        // init angular manualy
+        angular.bootstrap(document.getElementById('module'), ['createDirective']);
+    </script>
+
+</body>
+</html>

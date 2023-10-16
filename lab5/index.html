@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>AngularJS Lab 1</title>
+    <link href="Content/reset.min.css" rel="stylesheet" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/main.css" rel="stylesheet" />
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Scripts/i18n/angular-locale_ru-ru.js"></script>
+</head>
+    <body>
+
+        <main data-ng-app="lab5" data-ng-controller="goodsController">
+
+            <div class="mb-5 container-md">
+                <h1 class="mb-5">Lab 5</h1>
+
+                <div class="mt-5">
+
+                    <div class="mb-5">
+                        <label for="search" class="form-label">Поиск:</label>
+                        <input type="text" class="form-control" id="search" name="search" placeholder="Введите название" value="" data-ng-model="searchByItemName"/>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Название</th>
+                                <th scope="col">Цена</th>
+                                <th scope="col">Количество</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="g in goods | orderBy: 'name' | filter: {name: searchByItemName}">
+                                <td>{{$index + 1}}</td>
+                                <td>{{g.name | nameToUpperCase}}</td>
+                                <td>{{g.price | currency}}</td>
+                                <td>{{g.amount}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </main>
+        
+        <script>
+
+            var app = angular.module('lab5', []);
+
+            app.controller('goodsController', function ($scope) {
+
+                $scope.goods = [
+                    {name: 'Изумруд', amount: 154, price: 15445},
+                    {name: 'Алмаз', amount: 1258, price: 418},
+                    {name: 'Топаз', amount: 1254, price: 1485},
+                    {name: 'Циркон', amount: 12, price: 7854},
+                    {name: 'Аметист', amount: 48, price: 4851},
+                    {name: 'Цитрин', amount: 785, price: 12445},
+                    {name: 'Жадеит', amount: 456, price: 18754},
+                    {name: 'Опал', amount: 123, price: 15478},
+                    {name: 'Перидот', amount: 10258, price: 1205},
+                    {name: 'Кварц', amount: 1498, price: 2584}
+                ];     
+            });
+
+            app.filter('nameToUpperCase', function () {
+
+                return function (foo) {
+
+                    return foo.toUpperCase();
+                };
+            });
+        </script>
+
+    </body>
+</html>

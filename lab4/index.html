@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>AngularJS Lab 1</title>
+    <link href="Content/reset.min.css" rel="stylesheet" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/main.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="Controllers/userAgeController.js"></script>
+</head>
+    <body>
+
+        <main data-ng-app="ageApp" data-ng-controller="userAgeController">
+
+            <!-- angular -->
+            <div class="mb-5 container-md">
+                <h1 class="mb-5">Lab 4</h1>
+
+                <div class="mb-5">
+                    <label for="userdata" class="form-label">Select date:</label>
+                    <input type="date" class="form-control -user-date" id="userdata" name="userdata-date" value="" data-ng-model="userBirthYear" />
+                </div>
+
+                <div>
+                    <p class="h3">Your age: <span class="txt -green" ng-bind="userAge()"></span></p>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="mt-5 container-md">
+
+                <div class="mb-5">
+                    <label for="userdata-age" class="form-label">Enter your age:</label>
+                    <input type="number" class="form-control -user-date" id="userdata-age" name="userdata-age" placeholder="Enter number" value="" data-ng-model="userInputAge" />
+                </div>
+
+                <div>
+                    <p class="h3">Your year of birth: <span class="txt -green" ng-bind="userBirthYear()"></span></p>
+                </div>
+            </div>
+            <!-- /angular -->
+
+        </main>
+
+    </body>
+</html>

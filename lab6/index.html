@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>AngularJS Lab 1</title>
+    <link href="Content/reset.min.css" rel="stylesheet" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/main.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+    <script src="scripts/main.js"></script>
+</head>
+
+<body data-ng-app="lab6">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#!">Main</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#!persons">Persons</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#!orders">Orders</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!--
+        1. создать single page application, состоящий из:
+            • основного контейнера (index.html)
+            • главной страницы (main.html)
+            • страницы persons (persons.html)
+            • страницы order (order.html)
+        2. на основном контейнере сделать заголовок и навигацию по трём страницам (main persons order)
+        3. создать контроллер personscontroller, который заполняет модель список людей. подключать этот контроллер к странице persons.html при её загрузке в маршрутизации.
+        4. создать контроллер ordercontroller, который заполняет модель список товаров с ценами. подключать этот контроллер к странице order.html при её загрузке в маршрутизации.
+        5. на страницах persons.html и order.html отобразить информацию соответствующих моделей в виде таблицы.
+        -->
+
+
+        <div class="mb-5 container-md">
+
+            <h1 class="mb-5">Lab 6</h1>
+
+            <div ng-view></div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

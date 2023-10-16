@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>AngularJS Lab 7</title>
+    <link href="Content/reset.min.css" rel="stylesheet" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/main.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>-->
+    <!--<script src="scripts/main.js"></script>-->
+</head>
+
+<body data-ng-app="lab7">
+
+    <main>
+        <!--
+    1. Создать поля ввода: имя и возраст
+    2. Сохранять введенные данные в local storage по кнопке
+
+    ---
+    1. Отобразить список товаров и дать возможность менять их количество
+    2. Пересчитывать общую стоимость при изменении количества
+    3. Сохранять в local storage
+    4. Отображать призагрузке страницы
+    -->
+
+        <div class="mb-5 container-md" data-ng-controller="userDataController">
+
+            <h1 class="mb-5">Lab 7</h1>
+
+            <div class="input-group">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Введите имя" ng-model="user.name">
+                <input type="text" class="form-control" id="userage" name="userage" placeholder="Введите возраст" ng-model="user.age">
+            </div>
+            <button type="button" class="btn btn-primary mt-3" ng-click="saveToLocalStorage()">Сохранить</button>
+
+        </div>
+
+        <hr class="mt-5 mb-5" />
+
+        <div class="mb-5 container-md" data-ng-controller="itemsController">
+
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Название</th>
+                        <th scope="col">Цена</th>
+                        <th scope="col">Количество</th>
+                        <th scope="col">Итоговая цена</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="i in items">
+                        <td>{{$index + 1}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.price}}</td>
+                        <td><input type="number" class="form-control" ng-value="{{i.count}}" data-ng-model="itemsQuantity" data-ng-change="updateItemsCount($index, itemsQuantity)" /></td>
+                        <td>{{i.price * (itemsQuantity >= 0 ? itemsQuantity : i.count)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+
+
+        </div>
+
+    </main>
+
+</body>
+
+<script>   
+
+    var app = angular.module('lab7', []);
+
+    app.controller('userDataController', ['$scope', 'saveData', function ($scope, userData) {
+
+        $scope.user = userData.show();
+
+        $scope.saveToLocalStorage = function () {
+
+            userData.save($scope.user);
+        }
+
+    }]);
+
+    app.service('saveData', ['$window', function ($window) {
+
+        this.storageKey = 'savedLocalData';
+
+        this.save = function (obj) {
+
+            $window.localStorage.setItem(this.storageKey, JSON.stringify(obj));
+        }
+
+        this.show = function () {
+
+            var savedData = $window.localStorage.getItem(this.storageKey);
+
+            if (savedData) {
+
+                return JSON.parse(savedData);
+
+            } else {
+
+                return { name: '', age: 0 };
+            }
+        }
+    }]);
+
+    ////////////
+
+    /*
+    app.controller('itemsController', function ($scope) {
+
+        $scope.items = [
+            { name: 'Изумруд', price: 15, count: 1 },
+            { name: 'Алмаз', price: 41, count: 3 },
+            { name: 'Топаз', price: 12, count: 1 },
+            { name: 'Циркон', price: 11, count: 1 },
+            { name: 'Аметист', price: 9, count: 1 },
+            { name: 'Цитрин', price: 5, count: 1 },
+            { name: 'Жадеит', price: 32, count: 1 },
+            { name: 'Опал', price: 21, count: 1 },
+            { name: 'Перидот', price: 32, count: 1 },
+            { name: 'Кварц', price: 3, count: 1 }
+        ];
+
+        $scope.updateItemsCount = function (item, quantity) {
+
+            //$scope.items[item][count] = $scope.itemsQuantity;
+            console.log($scope.items[item].count);
+            console.log(quantity);
+        }
+
+
+    });*/
+
+    ////////
+
+
+    app.controller('itemsController', ['$scope', 'saveItemsQuantity', function ($scope, userData) {
+
+        $scope.items = userData.getFromLocalStorage();
+
+        if (!$scope.items) {
+
+            $scope.items = [
+                { name: 'Изумруд', price: 15, count: 1 },
+                { name: 'Алмаз', price: 41, count: 1 },
+                { name: 'Топаз', price: 12, count: 1 },
+                { name: 'Циркон', price: 11, count: 1 },
+                { name: 'Аметист', price: 9, count: 1 },
+                { name: 'Цитрин', price: 5, count: 1 },
+                { name: 'Жадеит', price: 32, count: 1 },
+                { name: 'Опал', price: 21, count: 1 },
+                { name: 'Перидот', price: 32, count: 1 },
+                { name: 'Кварц', price: 3, count: 1 }
+            ];
+        }
+
+        $scope.updateItemsCount = function (item, quantity) {
+
+            $scope.items[item].count = quantity;
+
+            console.table($scope.items);
+
+            userData.updateLocalStorage($scope.items);
+        }
+
+    }]);
+
+    app.service('saveItemsQuantity', ['$window', function ($window) {
+
+        this.storageKey = 'items';
+
+        this.updateLocalStorage = function (obj) {
+
+            $window.localStorage.setItem(this.storageKey, JSON.stringify(obj));
+            console.log(obj);
+        }
+
+        this.getFromLocalStorage = function () {
+
+            var savedData = $window.localStorage.getItem(this.storageKey);
+
+            if (savedData) {
+
+                return JSON.parse(savedData);
+                console.log(JSON.parse(savedData));
+
+            } else {
+
+                return false;
+                console.log('no saved data');
+            }
+        }
+    }]);
+
+
+</script>
+
+</html>
